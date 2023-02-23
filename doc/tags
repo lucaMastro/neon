@@ -13,3 +13,4 @@ vim.g.neon_italic_function	neon.txt	/*vim.g.neon_italic_function*
 vim.g.neon_italic_keyword	neon.txt	/*vim.g.neon_italic_keyword*
 vim.g.neon_italic_variable	neon.txt	/*vim.g.neon_italic_variable*
 vim.g.neon_style	neon.txt	/*vim.g.neon_style*
+vim.g.neon_transparent	neon.txt	/*vim.g.neon_transparent*

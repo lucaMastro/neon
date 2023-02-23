@@ -24,19 +24,21 @@ local function set_terminal_colors()
     vim.g.terminal_color_foreground = c.fg
 end
 
-local function set_transparent(color, optional_color)
+local function set_transparent(color)
     if not utils.tobool(vim.g.neon_transparent) then
         return color
     end
-    return optional_color or c.none
+    return c.none
 end
 
 local function set_groups()
     local groups = {
+	-- my group for inc Search
+	CurrentSearch = { bg = c.cyan, fg = c.bg0 },
         -- Base
         -- Editor highlight groups
         Normal = {fg = c.fg, bg = set_transparent(c.bg0) }, -- normal text and background color
-        SignColumn = {fg = c.fg, bg = set_transparent(c.bg0)},
+        SignColumn = {fg = c.fg, bg = c.bg0},
         EndOfBuffer = {fg = c.disabled}, -- ~ lines at the end of a buffer
         NormalFloat = {fg = c.fg, bg = c.bg2}, -- normal text and background color for floating windows
         FloatBorder = {fg = c.blue, bg = c.bg2},
@@ -52,21 +54,21 @@ local function set_groups()
         ErrorMsg = {fg = c.red}, -- error messages
         Folded = {fg = c.gray, c.none, style = "italic"},
         FoldColumn = {fg = c.blue},
-        IncSearch = {style = "reverse"},
-        LineNr = {fg = c.disabled},
-        CursorLineNr = {fg = c.cyan},
+        IncSearch = {bg = c.cyan, fg = c.bg0, style = "reverse"},
+        LineNr = {fg = c.dark_cyan},
+        CursorLineNr = {fg = c.cyan, style="bold"},
         MatchParen = {fg = c.red, style = "underline,bold"},
         ModeMsg = {fg = c.cyan, style = cfg.bold},
         MoreMsg = {fg = c.cyan, style = cfg.bold},
         NonText = {fg = c.bg3},
-        Pmenu = {fg = c.fg, bg = c.bg4},
+        Pmenu = {fg = c.fg, bg = "#2f2f2f"},
         PmenuSel = {fg = c.bg0, bg = c.blue, style = "bold"},
         PmenuSbar = {fg = c.fg, bg = c.bg2},
         PmenuThumb = {fg = c.fg, bg = c.gray},
         Question = {fg = c.green, style = cfg.bold},
         QuickFixLine = {fg = c.blue, bg = c.bg1, style = "bold,italic"},
         qfLineNr = {fg = c.blue, bg = c.bg1},
-        Search = {style = "reverse"},
+        Search = {bg = c.bg0, fg = c.cyan },
         SpecialKey = {fg = c.bg3},
         SpellBad = {fg = c.red, bg = c.none, style = "italic,undercurl"},
         SpellCap = {fg = c.blue, bg = c.none, style = "italic,undercurl"},
@@ -80,51 +82,55 @@ local function set_groups()
         TablineSel = {fg = c.bg0, bg = c.blue},
         Tabline = {fg = c.gray},
         Title = {fg = c.cyan, bg = c.none, style = cfg.bold},
-        Visual = {fg = c.none, style = "reverse"},
+        --Visual = {fg = c.none, style = "reverse"},
+        --Visual = {fg = c.none, bg = '#071663' },
+        Visual = {fg = c.none, bg = c.blue },
         VisualNOS = {fg = c.none, style = "reverse"},
         WarningMsg = {fg = c.orange, style = cfg.bold},
         WildMenu = {fg = c.bg0, bg = c.blue, style = "bold"},
         CursorColumn = {fg = c.none, bg = c.fg},
-        CursorLine = {fg = c.none, bg = set_transparent(c.bg1), style = set_transparent(nil, "underline")},
+        --CursorLine = {fg = c.none, bg = '#2d2d2e'},
+        CursorLine = {fg = c.none, bg = '#3c404e'},
         ToolbarLine = {fg = c.fg, bg = c.bg1},
         ToolbarButton = {fg = c.fg, bg = c.none, style = "bold"},
-        NormalMode = {fg = c.cyan, bg = c.none, style = "reverse"},
-        InsertMode = {fg = c.green, bg = c.none, style = "reverse"},
-        ReplacelMode = {fg = c.red, bg = c.none, style = "reverse"},
-        VisualMode = {fg = c.cyan, bg = c.none, style = "reverse"},
+        --NormalMode = {fg = c.cyan, bg = c.none, style = "reverse"},
+        --InsertMode = {fg = c.green, bg = c.none, style = "reverse"},
+        --ReplacelMode = {fg = c.red, bg = c.none, style = "reverse"},
+        --VisualMode = {fg = c.cyan, bg = c.none, style = "reverse"},
         VertSplit = {fg = c.gray_alt},
-        CommandMode = {fg = c.gray, bg = c.none, style = "reverse"},
+        --CommandMode = {fg = c.gray, bg = c.none, style = "reverse"},
         Warnings = {fg = c.orange},
         healthError = {fg = c.red},
         healthSuccess = {fg = c.green},
         healthWarning = {fg = c.orange},
         --common
-        Type = {fg = c.cyan}, -- int, long, char, etc.
-        StorageClass = {fg = c.cyan}, -- static, register, volatile, etc.
+        Type = {fg = c.orange, style="italic"}, -- int, long, char, etc.
+        StorageClass = {fg = c.yellow, style='italic'}, -- static, register, volatile, etc.
         Structure = {fg = c.orange}, -- struct, union, enum, etc.
-        Constant = {fg = c.violet}, -- any constant
+        Constant = {fg = c.yellow, style="italic"}, -- any constant
         Comment = {fg = c.gray, bg = c.none, style = cfg.italic_comment},
-        Conditional = {fg = c.blue, bg = c.none, style = cfg.italic_keyword}, -- italic if, then, else, endif, switch, etc.
-        Keyword = {fg = c.blue, bg = c.none, style = cfg.italic_keyword}, -- italic for, do, while, etc.
+        Conditional = {fg = c.red, bg = c.none, style = "italic"}, -- italic if, then, else, endif, switch, etc.
+        Keyword = {fg = c.light_blue, bg = c.none, style = cfg.italic_keyword}, -- italic for, do, while, etc.
         Repeat = {fg = c.orange, bg = c.none, style = cfg.italic_keyword}, -- italic any other keyword
         Boolean = {fg = c.blue_alt, bg = c.none, style = cfg.italic_boolean}, -- true , false
-        Function = {fg = c.blue, bg = c.none, style = cfg.italic_function .. cfg.bold},
-        Identifier = {fg = c.blue, bg = c.none, style = cfg.italic_variable}, -- any variable name
+        --Function = {fg = c.light_blue, bg = c.none, style = cfg.italic_function .. cfg.bold},
+        Function = {fg = c.yellow, bg = c.none, style = "italic"},
+        Identifier = {fg = c.light_sky_blue, bg = c.none, style = cfg.italic_variable}, -- any variable name
         String = {fg = c.green, bg = c.none}, -- Any string
         Character = {fg = c.orange}, -- any character constant: 'c', '\n'
-        Number = {fg = c.red}, -- a number constant: 5
-        Float = {fg = c.red}, -- a floating point constant: 2.3e10
-        Statement = {fg = c.blue}, -- any statement
+        Number = {fg = c.light_pink}, -- a number constant: 5
+        Float = {fg = c.light_pink}, -- a floating point constant: 2.3e10
+        Statement = {fg = c.red, style = "italic"}, -- any statement
         Label = {fg = c.cyan}, -- case, default, etc.
-        Operator = {fg = c.blue}, -- sizeof", "+", "*", etc.
+        Operator = {fg = c.orange}, -- sizeof", "+", "*", etc.
         Exception = {fg = c.blue}, -- try, catch, throw
-        PreProc = {fg = c.orange}, -- generic Preprocessor
-        Include = {fg = c.blue}, -- preprocessor #include
+        PreProc = {fg = c.light_green}, -- generic Preprocessor
+        Include = {fg = c.light_pink, style="italic"}, -- preprocessor #include
         Define = {fg = c.cyan}, -- preprocessor #define
         Macro = {fg = c.blue}, -- same as Define
         Typedef = {fg = c.cyan}, -- A typedef
         PreCondit = {fg = c.cyan}, -- preprocessor #if, #else, #endif, etc.
-        Special = {fg = c.blue, bg = c.none, style = "italic"}, -- any special symbol
+        Special = {fg = c.yellow, bg = c.none, style = "italic"}, -- any special symbol
         SpecialChar = {fg = c.orange}, -- special character in a constant
         Tag = {fg = c.red}, -- you can use CTRL-] on this
         Delimiter = {fg = c.yellow}, -- character that needs attention like , or .
@@ -134,6 +140,7 @@ local function set_groups()
         Ignore = {fg = c.gray_alt}, -- left blank, hidden
         Error = {fg = c.red, bg = c.none, style = "bold,underline"}, -- any erroneous construct
         Todo = {fg = c.cyan, bg = c.none, style = "bold,italic"}, -- anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+	vimMap = {fg = c.light_pink, style="italic" },
         -- HTML
         htmlArg = {fg = c.orange},
         htmlBold = {fg = c.orange, bg = c.none, style = "bold"},
@@ -143,8 +150,8 @@ local function set_groups()
         htmlSpecialChar = {fg = c.orange},
         htmlSpecialTagName = {fg = c.blue, style = cfg.bold},
         htmlTag = {fg = c.fg},
-        htmlTagN = {fg = c.blue},
-        htmlTagName = {fg = c.blue, cfg.bold},
+        htmlTagN = {fg = c.light_blue},
+        htmlTagName = {fg = c.orange, cfg.bold},
         htmlTitle = {fg = c.fg},
         htmlH1 = {fg = c.blue, style = "bold"},
         htmlH2 = {fg = c.blue, style = "bold"},
@@ -429,12 +436,13 @@ local function set_groups()
         CocExplorerFileReadonly = {fg = c.purple},
         CocExplorerFileModified = {fg = c.purple},
         CocExplorerFileHidden = {fg = c.gray},
-        CocExplorerHelpLine = {fg = c.purple}
+        CocExplorerHelpLine = {fg = c.purple},
+	pythonFunction = { fg = c.light_green},
     }
 
     local overrides = vim.g.neon_overrides
     if overrides then
-        groups = vim.tbl_extend("force", groups, overrides)
+        vim.tbl_extend("force", groups, overrides)
     end
 
     for group, parameters in pairs(groups) do
