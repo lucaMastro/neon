@@ -69,7 +69,7 @@ function colors.generate()
         colors.fg = "#C8CCCE"
         --colors.bg0 = "#222223"
         colors.bg0 = "#2A2D37"
-        colors.bg1 = "#d0d0d0"
+        colors.bg1 = "#969696"
         colors.bg2 = "#c2c2c3"
 	colors.bg3 = "#a0a1a7"
         colors.bg4 = "#abb2bf"
